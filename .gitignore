@@ -1,0 +1,15 @@
+# Editor directories and files
+.idea
+note
+infomation
+test
+
+# config files
+config/application.yml
+config/keystore-7000103520.json
+
+#repo
+.git
+
+#logfile
+logfile
