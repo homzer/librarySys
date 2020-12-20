@@ -10,7 +10,7 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	r.Use(middleware.CORSMiddleware())
 	r.POST("tokenAuth", middleware.TokenAuthHandler)
 
-	r.POST("register", controller.SignUp)
+	r.POST("register", controller.Register)
 
 	return r
 }

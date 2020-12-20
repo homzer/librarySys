@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Loan struct {
+type LostTitle struct {
 	Id         int       `json:"id"`
 	BorrowerId int       `json:"borrower_id"`
 	TitleId    int       `json:"title_id"`

@@ -7,20 +7,16 @@ import (
 	"log"
 )
 
-func CreateBorrower(borrower *model.Borrower) (*model.Borrower, *util.Err) {
+func CreateBorrower(name string, _type int) (*model.Borrower, *util.Err) {
+	var borrower model.Borrower
+	borrower.Name = name
+	borrower.Type = _type
 	db := common.GetDB()
 	if err := db.Create(&borrower).Error; err != nil {
 		log.Println(err)
 		return nil, util.Fail(err.Error())
 	}
-	borrower.CardNum = CreateCardNum(borrower.Id)
-	err := db.Save(borrower).Error
-	if err != nil {
-		log.Println(err)
-		return nil, util.Fail(err.Error())
-	}
-
-	return borrower, util.Success()
+	return &borrower, util.Success()
 }
 
 func GetBorrowerIdByCardNum(cardNum string) (int, *util.Err) {

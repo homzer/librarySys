@@ -9,17 +9,13 @@ import (
 	"strconv"
 )
 
-func Register(ctx *gin.Context) {
+func DeleteTitle(ctx *gin.Context) {
 	var mMap = make(map[string]string)
 	json.NewDecoder(ctx.Request.Body).Decode(&mMap)
-	_type, _ := strconv.Atoi(mMap["type"])
-	name := mMap["name"]
-	cardNum, err := service.Register(name, _type)
-	if util.IsFailed(err) {
+	titleId, _ := strconv.Atoi(mMap["titleId"])
+	if err := service.DeleteTitle(titleId); util.IsFailed(err) {
 		response.Fail(ctx, nil, err.Message)
 		return
 	}
-	response.Success(ctx, gin.H{
-		"cardNum": cardNum,
-	}, "用户注册成功！")
+	response.Success(ctx, nil, "删除标题信息成功！")
 }
