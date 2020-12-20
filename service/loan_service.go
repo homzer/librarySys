@@ -54,6 +54,22 @@ func CreateLoan(titleId int, cardNum string) *util.Err {
 }
 
 func GetLoans(cardNum string) (*[]model.Loan, *util.Err) {
+	// 验证借阅证是否有效
+	if !validateCard(cardNum) {
+		log.Println("身份无效！cardNum = ", cardNum)
+		return nil, util.Fail("身份无效！")
+	}
+
+	// 检查是否有超期未归还图书
+	if HasOverDue(cardNum) {
+		log.Println("存在超期记录!")
+	}
+
+	// 查询借书数量是否达到上限
+	if BorrowQuantityIsExceeded(cardNum) {
+		log.Println("该用户达到最大借书数量！")
+	}
+
 	db := common.GetDB()
 	borrowerId, err := GetBorrowerIdByCardNum(cardNum)
 	if util.IsFailed(err) {
@@ -83,4 +99,15 @@ func DeleteLoan(cardNum string, titleId int) *util.Err {
 		return util.Fail(err1.Error())
 	}
 	return util.Success()
+}
+
+func GetLoansByTitleId(titleId int) (*[]model.Loan, *util.Err) {
+	db := common.GetDB()
+	var loans []model.Loan
+	err := db.Where("title_id = ?", titleId).Find(&loans).Error
+	if err != nil {
+		log.Println(err.Error())
+		return nil, util.Fail(err.Error())
+	}
+	return &loans, util.Success()
 }

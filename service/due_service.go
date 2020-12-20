@@ -26,8 +26,21 @@ func IsOverDue(cardNum string, titleId int) bool {
 	// ...
 }
 
+// 获取超期罚款额
 func GetOverDueFine(cardNum string, titleId int) (float64, *util.Err) {
-	// 获取用户类型
+	// 获取书籍类型
+	/*titleType, err := GetTitleType(titleId)
+	if util.IsFailed(err) {
+		return 0, util.Fail(err.Message)
+	}
+
+	var fine float64
+	var err *util.Err
+	switch titleType {
+	case model.PAPER:
+		due := NewPaperDue()
+		fine, err = due.GetOverDueFine(cardNum, titleId)
+	}*/
 
 	// 获取超期天数
 
